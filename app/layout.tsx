@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="scroll-smooth antialiased" suppressHydrationWarning>
+    <html lang="en" className="dark scroll-smooth antialiased" suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Suspense fallback={null}>{children}</Suspense>

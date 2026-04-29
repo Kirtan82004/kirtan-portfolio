@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { motion } from "framer-motion"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -12,34 +11,37 @@ export function Contact() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState("")
 
   async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
+    e.preventDefault()
+    setLoading(true)
+    setStatus("")
 
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, message }),
-    });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
+      })
 
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("Message sent successfully!");
-      setName("");
-      setEmail("");
-      setMessage("");
-    } else {
-      alert(`Failed to send message: ${data.message}`);
+      if (res.ok) {
+        setStatus("✅ Message sent successfully!")
+        setName("")
+        setEmail("")
+        setMessage("")
+      } else {
+        setStatus("❌ Failed to send message")
+      }
+    } catch (error) {
+      setStatus("❌ Something went wrong")
     }
-  } catch (error) {
-    console.error("Error sending message:", error);
-    alert("Something went wrong. Please try again later.");
+
+    setLoading(false)
   }
-}
 
   return (
     <div className="py-16">
@@ -48,12 +50,18 @@ export function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mb-8 text-2xl font-semibold"
+        className="mb-3 text-2xl font-semibold"
       >
         Contact
       </motion.h2>
 
+      {/* 🔥 Strong CTA line */}
+      <p className="mb-8 text-sm text-muted-foreground max-w-xl">
+        I'm actively looking for internship opportunities. Feel free to reach out if you have a role, project, or collaboration in mind 🚀
+      </p>
+
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {/* Info */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -63,14 +71,15 @@ export function Contact() {
         >
           <ul className="space-y-3 text-sm">
             <li className="flex items-center gap-3">
-              <Phone className="size-4 text-primary" aria-hidden="true" />
+              <Phone className="size-4 text-primary" />
               <span className="text-foreground/80">+91 8377997202</span>
             </li>
+
             <li className="flex items-center gap-3">
-              <Mail className="size-4 text-primary" aria-hidden="true" />
+              <Mail className="size-4 text-primary" />
               <a
                 href="mailto:kirtan.go.tech@gmail.com"
-                className="text-foreground/80 underline-offset-4 hover:underline"
+                className="text-foreground/80 hover:underline"
               >
                 kirtan.go.tech@gmail.com
               </a>
@@ -81,24 +90,22 @@ export function Contact() {
             <a
               href="https://www.linkedin.com/in/kirtan-kumar-2b0625338/"
               target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-background text-foreground transition hover:scale-105 hover:bg-secondary"
+              className="p-2 border rounded-full hover:scale-105"
             >
-              <Linkedin className="size-4" aria-hidden="true" />
+              <Linkedin size={16} />
             </a>
+
             <a
               href="https://github.com/kirtan82004"
               target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-background text-foreground transition hover:scale-105 hover:bg-secondary"
+              className="p-2 border rounded-full hover:scale-105"
             >
-              <Github className="size-4" aria-hidden="true" />
+              <Github size={16} />
             </a>
           </div>
         </motion.div>
 
+        {/* Form */}
         <motion.form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 12 }}
@@ -107,55 +114,41 @@ export function Contact() {
           transition={{ duration: 0.5 }}
           className="rounded-lg border border-border bg-card p-5"
         >
-          <div className="grid grid-cols-1 gap-4">
-            <div className="grid gap-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Name
-              </label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="bg-background"
-                placeholder="Your name"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-background"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <label htmlFor="message" className="text-sm font-medium">
-                Message
-              </label>
-              <Textarea
-                id="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="min-h-32 bg-background"
-                placeholder="How can I help?"
-                required
-              />
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-              >
-                Send Message
-              </button>
-            </div>
+          <div className="grid gap-4">
+            <Input
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+
+            <Input
+              type="email"
+              placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <Textarea
+              placeholder="Tell me about your requirement..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-primary text-white py-2 rounded-md hover:opacity-90"
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </button>
+
+            {/* 🔥 Status Message */}
+            {status && (
+              <p className="text-sm text-muted-foreground">{status}</p>
+            )}
           </div>
         </motion.form>
       </div>

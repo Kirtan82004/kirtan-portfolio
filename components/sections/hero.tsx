@@ -11,35 +11,56 @@ export function Hero() {
       <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2 md:text-left">
         {/* Copy block */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="space-y-6 order-2 md:order-1"
-        >
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+>
           <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
             <MapPin className="size-4" aria-hidden="true" />
             Faridabad, Haryana
           </div>
 
-          <h1 className="text-balance text-4xl font-bold leading-tight md:text-6xl">Hi, I&apos;m Kirtan</h1>
-          <p className="text-pretty text-base leading-relaxed text-foreground/80 md:text-lg">
-            Aspiring Full Stack Developer crafting clean, modern, and performant web experiences.
-          </p>
+          <div className="space-y-6 order-2 md:order-1">
 
-          <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <Button asChild className="bg-primary text-primary-foreground hover:opacity-90">
-              <a href="/Kirtan-Resume.pdf" target="_blank" rel="noopener noreferrer">
-                View Resume
-              </a>
-            </Button>
-            <Button
-              variant="outline"
-              asChild
-              className="border-border bg-background text-foreground hover:bg-secondary"
-            >
-              <a href="#contact">Contact Me</a>
-            </Button>
-          </div>
+  {/* Small intro */}
+  <p className="text-sm text-muted-foreground">
+    👋 Hi, I'm Kirtan
+  </p>
+
+  {/* 🔥 MAIN HEADLINE */}
+  <h1 className="text-4xl font-bold leading-tight md:text-6xl">
+    <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+      Full Stack Developer
+    </span>
+  </h1>
+
+  {/* Subheading */}
+  <p className="text-base text-foreground/80 md:text-lg max-w-xl">
+    I build scalable web applications using React, Node.js, and MongoDB — 
+    focused on performance, clean architecture, and real-world impact.
+  </p>
+
+  {/* 🔥 Proof line */}
+  <p className="text-sm text-muted-foreground">
+    🚀 Built real-time apps, admin dashboards & AI-powered tools
+  </p>
+
+  {/* Buttons */}
+  <div className="flex flex-wrap gap-3">
+    <Button asChild>
+      <a href="#projects">View Projects</a>
+    </Button>
+
+    <Button variant="outline" asChild>
+      <a href="/Kirtan-Resume.pdf" target="_blank">Resume</a>
+    </Button>
+
+    <Button variant="ghost" asChild>
+      <a href="#contact">Contact</a>
+    </Button>
+  </div>
+
+</div>
         </motion.div>
 
         {/* Animated portrait */}
@@ -66,9 +87,8 @@ export function Hero() {
           <div
             className="relative aspect-square overflow-hidden rounded-[1.6rem] border border-border shadow-xl"
             style={{
-              clipPath: "polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%)",
-              filter: "drop-shadow(0 0 32px var(--primary))",
-            }}
+  filter: "drop-shadow(0 0 40px rgba(99,102,241,0.6))",
+}}
           >
             <Image
               src="/images/image.png"
